@@ -1,0 +1,107 @@
+* {
+    border: 1px solid gold;
+}
+
+body {
+    margin: 0;
+}
+
+#heading {
+    text-align: center;
+}
+
+
+
+.text-center {
+    text-align: center;
+}
+.section-container {
+    display: flex;
+    flex-direction: column;
+    background-color: lightblue;
+    border-radius: 10px;
+    width: 80%;
+    margin: 0 auto;
+    padding: 25px;
+
+}
+/* DESTINATION SECTION */
+#destination-form {
+    display: flex;
+    flex-direction: column;
+}
+/* FORECAST STYLING */
+.forecast-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: white;
+    place-self: center;
+    height:200px;
+    width: 80%;
+    padding: 8px;
+    border-radius: 7px;
+}
+.middle-card {
+    margin: 20px 0;
+}
+.icons, .temps {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.sun-icon {
+    background-image: url('/assets/sun-icon.svg');
+    background-size: cover;
+    height: 50px;
+    width: 50px;
+}
+.moon-icon {
+    background-image: url('/assets/moon-icon.svg');
+    height: 50px;
+    width: 50px;
+    justify-content: center;
+    gap: 30px;
+}
+/* PACKING LIST STYLING */
+#packing-list-section {
+    margin-bottom: 20px;
+}
+
+.table-container {
+    display: table;
+    width: 80%;
+    margin: 0 auto;
+    background-color: white;
+}
+
+.header, .row {
+    display: table-row;
+}
+.column {
+    display: table-cell;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+
+
+
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}
+@media (min-width: 768px) {
+    #heading {
+        text-align: left;
+        /* margin-left: 50px; */
+    }
+
+
+}
