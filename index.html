@@ -12,67 +12,87 @@
         <h1>Weekend Packer</h1>
         <p>Plan ahead for your Weekend Getaway!</p>
     </div>
-    <h2>Destination</h2>
-    <section id="destination-select-container" class="section-container">
-        <form id="destination-form">
-            <label for="country">Country</label>
-            <select name="country" id="country">
-                <option value="">Select a Country</option>
-                <!-- Use JavaScript to create the rest of the options here, pull from weather api, every response.data.country will have an option and the value will be the country name. If value is country name, display that countries forecast data.wa -->
-            </select>
-            <label for="state">State</label>
-            <select name="state" id="state">
-                <option value="">Select a State</option>
-                <!-- Use JavaScript to create the rest of the options here, pull from weather api, every response.data.state will have an option and the value will be the state name. If value is state name, display that countries forecast data.wa -->
-            </select>
-            <label for="city">City</label>
-            <select name="city" id="city">
-                <option value="">Select a City</option>
-                <!-- Use JavaScript to create the rest of the options here, pull from weather api, every response.data.city will have an option and the value will be the city name. If value is country name, display that cities forecast data.wa -->
-            </select>
-            <input type="submit" value="Submit">
-        </form>
-    </section>
-    <h2>Weekend Forecast</h2>
-    <section id="forecast-container" class="section-container">
-        <!-- with javascript, get local time, change it to upcoming and add as an h-3 or p tag here. -->
-        <!-- Create three cards with javascript here showcasing the data 
-        --> 
-            <p>Sacramento, CA - December 1-3, 2023</p>
-            <p class="text-center">FRI, DEC 1</p>
-            <div class="forecast-card">
-                <div class="icons">
-                    <div class="sun-icon"></div>
-                    <div class="moon-icon"></div>
+    <div id="destination-forecast-container">
+        <div>
+            <h2>Destination</h2>
+            <section id="destination-select-container" class="section-container">
+                <form id="destination-form">
+                    <label for="country">Country</label>
+                    <select name="country" id="country">
+                        <option value="">Select a Country</option>
+                        <!-- Use JavaScript to create the rest of the options here, pull from weather api, every response.data.country will have an option and the value will be the country name. If value is country name, display that countries forecast data.wa -->
+                    </select>
+                    <label for="state">State</label>
+                    <select name="state" id="state">
+                        <option value="">Select a State</option>
+                        <!-- Use JavaScript to create the rest of the options here, pull from weather api, every response.data.state will have an option and the value will be the state name. If value is state name, display that countries forecast data.wa -->
+                    </select>
+                    <label for="city">City</label>
+                    <select name="city" id="city">
+                        <option value="">Select a City</option>
+                        <!-- Use JavaScript to create the rest of the options here, pull from weather api, every response.data.city will have an option and the value will be the city name. If value is country name, display that cities forecast data.wa -->
+                    </select>
+                    <input type="submit" value="Submit">
+                </form>
+            </section>
+        </div>
+        <div>
+            <h2>Weekend Forecast</h2>
+            <section id="forecast-container" class="section-container">
+                <!-- with javascript, get local time, change it to upcoming and add as an h-3 or p tag here. -->
+                <!-- Create three cards with javascript here showcasing the data 
+                --> 
+                <p>Sacramento, CA</p>
+                <div id="all-forecast-cards">
+                    <div>
+                        <p class="text-center forecast-date">FRI, DEC 1</p>
+                        <div class="forecast-card">
+                            <div class="icons">
+                                <div class="sun-icon"></div>
+                                <div class="moon-icon"></div>
+                            </div>
+                            <div class="temps">
+                                    <p>High 61</p>
+                                    <p>Low 48</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-center forecast-date">SAT, DEC 2</p>
+                        <div class="forecast-card middle-card">
+                            <div class="icons">
+                                <div class="sun-icon"></div>
+                                <div class="moon-icon"></div>
+                            </div>
+                            <div class="temps">
+                                    <p>High 61</p>
+                                    <p>Low 48</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-center forecast-date">SUN, DEC 3</p>
+                        <div class="forecast-card">
+                            <div class="icons">
+                                <div class="sun-icon"></div>
+                                <div class="moon-icon"></div>
+                            </div>
+                            <div class="temps">
+                                    <p>High 61</p>
+                                    <p>Low 48</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="temps">
-                        <p>High 61</p>
-                        <p>Low 48</p>
-                </div>
-            </div>
-            <p class="text-center">SAT, DEC 2</p>
-            <div class="forecast-card middle-card">
-                <div class="icons">
-                    <div class="sun-icon"></div>
-                    <div class="moon-icon"></div>
-                </div>
-                <div class="temps">
-                        <p>High 61</p>
-                        <p>Low 48</p>
-                </div>
-            </div>
-            <p class="text-center">SUN, DEC 3</p>
-            <div class="forecast-card">
-                <div class="icons">
-                    <div class="sun-icon"></div>
-                    <div class="moon-icon"></div>
-                </div>
-                <div class="temps">
-                        <p>High 61</p>
-                        <p>Low 48</p>
-                </div>
-            </div>
-    </section>
+                    
+            </section>
+
+        </div>
+        
+
+    </div>
+
     <h2>Packing List</h2>
     <section id="packing-list-section" class="section-container">  
         <!-- <div id="list-headers" class="row suggested-active-header">
@@ -130,7 +150,7 @@
                 <div class="column">20</div>
                 <div class="column">Add</div>
             </div>
-            <form class="row">
+            <!-- <form id='new-item-form' class="row">
                 <input type="text" placeholder="item name ex. hairdryer" />
                 <select name="category" id="category">
                     <option value="">Category</option>
@@ -139,7 +159,7 @@
                     <option value="health-beauty">Health & Beauty</option>
                     <option value="miscellaneous">Misc.</option>
                 </select>
-            </form>
+            </form> -->
 
         </div>
 
