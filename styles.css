@@ -1,6 +1,6 @@
-* {
+/* * {
     border: 1px solid gold;
-}
+} */
 
 body {
     margin: 0;
@@ -26,11 +26,26 @@ h2 {
     padding: 25px;
 
 }
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}
 
 /* DESTINATION SECTION */
 #destination-form {
     display: flex;
     flex-direction: column;
+    gap:10px
+}
+
+.search {
+    padding: 7px 10px;
+}
+label {
+    font-size: 20px;
 }
 
 /* FORECAST STYLING */
@@ -40,12 +55,12 @@ h2 {
     justify-content: space-around;
     background-color: white;
     place-self: center;
-    padding: 8px;
+    padding: 8px 0px;
     border-radius: 7px;
+    gap:60px;
+    margin: 0 40px;
 }
-.middle-card {
-    margin: 20px 0;
-}
+
 .icons, .temps {
     display: flex;
     justify-content: center;
@@ -66,7 +81,7 @@ h2 {
     gap: 30px;
 }
 /* PACKING LIST STYLING */
-#packing-list-section {
+#list-section {
     margin-bottom: 20px;
 }
 
@@ -103,13 +118,11 @@ h2 {
 
 /* change layout at medium screen sizes */
 @media (min-width: 768px) {
-    select {
+    .search {
         padding: 10px 150px 10px 0px;
-
     }
     #heading {
         text-align: left;
-        /* margin-left: 50px; */
     }
     #destination-form {
         gap: 10px;
@@ -124,19 +137,25 @@ h2 {
         width: auto;
     }
 
-    /* #forecast-container {
-        flex-direction: row !important;
-    } */
     #forecast-container {
         display: flex;
         flex-direction: column;
+        padding-bottom: 38px;
+    }
+    #location-txt {
+        margin: 0;
+        font-size: 25px;
+    }
+    label {
+        font-size: 18.5px;
     }
 
     .forecast-card {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 40px
+        gap: 40px;
+        padding: 8px;
     }
 
 
@@ -152,9 +171,16 @@ h2 {
     }
     #all-forecast-cards {
         display: flex;
-        gap:60px;
-        padding-left: 50px;
-        padding-right: 50px;
+        gap:50px;
 
     }
+    /* PACKING LIST STYLING */
+    #ist-section {
+        width:63%;
+        margin-bottom: 20px;
+    }
+    .desktop-txt-margin-left {
+        margin-left: 230px;
+    }
+
 }

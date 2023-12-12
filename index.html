@@ -9,29 +9,20 @@
 </head>
 <body>
     <div id="heading">
-        <h1>Weekend Packer</h1>
-        <p>Plan ahead for your Weekend Getaway!</p>
+        <h1 class="desktop-txt-margin-left">Weekend Packer</h1>
+        <p class="desktop-txt-margin-left">Plan ahead for your Weekend Getaway!</p>
     </div>
     <div id="destination-forecast-container">
         <div>
             <h2>Destination</h2>
             <section id="destination-select-container" class="section-container">
-                <form id="destination-form">
+                <form id="destination-form" onsubmit="{handleDestinationSubmit(event)}">
                     <label for="country">Country</label>
-                    <select name="country" id="country">
-                        <option value="">Select a Country</option>
-                        <!-- Use JavaScript to create the rest of the options here, pull from weather api, every response.data.country will have an option and the value will be the country name. If value is country name, display that countries forecast data.wa -->
-                    </select>
+                    <input name="country" id="country" class="search" placeholder="Full Country Name" onchange="handleDestinationInputChange(event)"/>
                     <label for="state">State</label>
-                    <select name="state" id="state">
-                        <option value="">Select a State</option>
-                        <!-- Use JavaScript to create the rest of the options here, pull from weather api, every response.data.state will have an option and the value will be the state name. If value is state name, display that countries forecast data.wa -->
-                    </select>
+                    <input name="state" id="state"  class="search" placeholder="Full State Name"  onchange="handleDestinationInputChange(event)"/>
                     <label for="city">City</label>
-                    <select name="city" id="city">
-                        <option value="">Select a City</option>
-                        <!-- Use JavaScript to create the rest of the options here, pull from weather api, every response.data.city will have an option and the value will be the city name. If value is country name, display that cities forecast data.wa -->
-                    </select>
+                    <input name="city" id="city" class="search" placeholder="Full City Name" onchange="handleDestinationInputChange(event)"/>
                     <input type="submit" value="Submit">
                 </form>
             </section>
@@ -42,7 +33,7 @@
                 <!-- with javascript, get local time, change it to upcoming and add as an h-3 or p tag here. -->
                 <!-- Create three cards with javascript here showcasing the data 
                 --> 
-                <p>Sacramento, CA</p>
+                <p id="location-txt">Sacramento, CA</p>
                 <div id="all-forecast-cards">
                     <div>
                         <p class="text-center forecast-date">FRI, DEC 1</p>
@@ -93,8 +84,8 @@
 
     </div>
 
-    <h2>Packing List</h2>
-    <section id="packing-list-section" class="section-container">  
+    <h2 class="desktop-txt-margin-left hidden">Packing List</h2>
+    <section id="list-section" class="section-container hidden">  
         <!-- <div id="list-headers" class="row suggested-active-header">
             <p class="">Suggested</p>
             <p>Your List</p>
