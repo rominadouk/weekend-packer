@@ -2,6 +2,7 @@
 const locationTxt = document.getElementById('location-txt');
 const listHeadingTxt = document.getElementById('list-header');
 const listSection = document.getElementById('list-section');
+const table = document.getElementById('table-container');
 let forecasts = '';
 let destination = {
     country: '',
@@ -31,17 +32,17 @@ const sundayIcon = document.getElementById('sunday-icon');
 
 
 //Toggle List
-const toggleList = () => {
-    //for class list property use contains,
-    if(listSection.classList.contains('hidden')) {
-        listSection.classList.remove('hidden')
-        listHeadingTxt.classList.remove('hidden')
+// const toggleList = () => {
+//     //for class list property use contains,
+//     if(listSection.classList.contains('hidden')) {
+//         listSection.classList.remove('hidden')
+//         listHeadingTxt.classList.remove('hidden')
         
-    } else {
-        listSection.classList.add('hidden')
-        listHeadingTxt.classList.add('hidden')
-    }
-};
+//     } else {
+//         listSection.classList.add('hidden')
+//         listHeadingTxt.classList.add('hidden')
+//     }
+// };
 
 //toggle class hidden and block for visibility
 
@@ -83,7 +84,7 @@ const filterForecasts = (forecasts) => {
     let fridayForecast, saturdayForecast, sundayForecast;
 
     forecasts.forecast.forecastday.forEach((oneDay) => {
-        console.log(oneDay)
+        // console.log(oneDay)
         const date = new Date(oneDay.date);
         const formattedDate = date.toLocaleDateString('en-US', {
             weekday: 'long',
@@ -125,9 +126,105 @@ const filterForecasts = (forecasts) => {
     // unites states of america
     return { fridayForecast, saturdayForecast, sundayForecast };
 
-    })
-    toggleList()
+    });
+    generateSuggestions({fridayForecast, saturdayForecast, sundayForecast})
+    //work with the returned forecast data here to conditionally render suggestions based on fridayForecast.condition.text
+
 };
+
+
+const generateSuggestions = (forecasts) => {
+    const cloudySuggestions = [
+        {
+            name: 'jacket',
+            type: 'clothing'
+        },
+        {
+            name: 'light sunblock',
+            type: 'misc.'
+        },
+        {
+            name: 'hoodie',
+            type: 'clothing'
+        }
+
+    ]
+
+    const rainSuggestions = [
+        {
+            name: 'jacket with a hood',
+            type: 'clothing'
+        },
+        {
+            name: 'umbrella',
+            type: 'misc.'
+        },
+        {
+            name: 'hat',
+            type: 'clothings'
+        },
+        {
+            name: 'rainboots',
+            type: 'clothings'
+        },
+        {
+            name: 'gloves',
+            type: 'clothings'
+        },
+
+    ];
+
+    const sunnySuggestions = [
+        {
+            name: 'hat',
+            type: 'clothing'
+        },
+        {
+            name: 'sunblock',
+            type: 'misc.'
+        },
+        {
+            name: 'short sleeve',
+            type: 'clothing'
+        }
+
+    ];
+
+    // console.log(forecasts)
+    //each forecast is a value of a larger object
+    Object.values(forecasts).forEach((forecast) => {
+        let suggestions = [];
+
+            //check the conditions of the condition.txt, set suggestions based on condition
+            if(forecast.day.condition.text.toLowerCase().includes('cloudy')) {
+                suggestions = cloudySuggestions;
+            } else if(forecast.day.condition.text.toLowerCase().includes('rainy')) {
+                suggestions = rainSuggestions;
+            } else if(forecast.day.condition.text.toLowerCase().includes('sunny')) {
+                suggestions = sunnySuggestions;
+            }
+            //for each element in the suggestions that were in coditions, manpulate the dom
+            suggestions.forEach((item) => {
+                const row = document.createElement('div');
+                row.classList.add('row');
+                //name
+                let nameColumn = document.createElement('div');
+                nameColumn.classList.add('column');
+                nameColumn.innerHTML = `${item.name}`;
+
+                //type
+                let typeColumn = document.createElement('div');
+                typeColumn.classList.add('column');
+                typeColumn.innerHTML = `${item.type}`;
+                //appending
+                row.appendChild(nameColumn);
+                row.appendChild(typeColumn);
+                table.append(row);
+            });
+
+
+    });
+}
 
 
 const getItems = async () => {
@@ -138,7 +235,8 @@ const getItems = async () => {
     } catch (err) {
         console.log(err)
     }
-}
+};
 
+//call functions
 getItems();
 

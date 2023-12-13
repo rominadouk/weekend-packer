@@ -85,7 +85,7 @@ label {
     margin-bottom: 20px;
 }
 
-.table-container {
+#table-container {
     display: table;
     width: 80%;
     margin: 0 auto;
