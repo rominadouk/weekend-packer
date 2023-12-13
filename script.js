@@ -1,6 +1,8 @@
 //Variables
 const locationTxt = document.getElementById('location-txt');
+const listHeadingTxt = document.getElementById('list-header');
 const listSection = document.getElementById('list-section');
+let forecasts = '';
 let destination = {
     country: '',
     state: '',
@@ -8,7 +10,40 @@ let destination = {
 };
 
 
-//toggle classes hidden and block for visibility
+
+//Friday Info
+const fridayDate = document.getElementById('friday-date');
+const fridayHigh = document.querySelector('#friday-card p');
+const fridayLow = document.querySelector('#friday-card p:nth-child(2)');
+const fridayIcon = document.getElementById('friday-icon');
+
+//Saturday Info
+const saturdayDate = document.getElementById('saturday-date');
+const saturdayHigh = document.querySelector('#saturday-card p');
+const saturdayLow = document.querySelector('#saturday-card p:nth-child(2)');
+const saturdayIcon = document.getElementById('saturday-icon');
+
+//Sunday Info
+const sundayDate = document.getElementById('sunday-date');
+const sundayHigh = document.querySelector('#sunday-card p');
+const sundayLow = document.querySelector('#sunday-card p:nth-child(2)');
+const sundayIcon = document.getElementById('sunday-icon');
+
+
+//Toggle List
+const toggleList = () => {
+    //for class list property use contains,
+    if(listSection.classList.contains('hidden')) {
+        listSection.classList.remove('hidden')
+        listHeadingTxt.classList.remove('hidden')
+        
+    } else {
+        listSection.classList.add('hidden')
+        listHeadingTxt.classList.add('hidden')
+    }
+};
+
+//toggle class hidden and block for visibility
 
 //to display items in the packing list it will be getItems()
 //suggested list will be conditionally rendered based on forecast.
@@ -18,8 +53,7 @@ const handleDestinationInputChange = (e) => {
     //spread operator, copy objects contents  and dynamically set properties
     destination = {
         ...destination,
-        [e.target.name]: e.target.value,
-
+        [e.target.name]: e.target.value
     }
 };
 
@@ -35,12 +69,65 @@ const handleDestinationInputChange = (e) => {
             },
             body:JSON. stringify(destination)
         })
-        const forecasts = await response.json();
-        console.log(forecasts)
-    } catch (err){
+        forecasts = await response.json();
+        // console.log(forecasts)
+        locationTxt.innerHTML = `${forecasts.location.name}, ${forecasts.location.region} `
+        filterForecasts(forecasts)
+    } catch (err) {
         console.log(err)
     }
  };
+
+ //function uses the dates, turns it into a string, checks to see if its friday sat or sunday and manipulates DOM accordingly
+const filterForecasts = (forecasts) => {
+    let fridayForecast, saturdayForecast, sundayForecast;
+
+    forecasts.forecast.forecastday.forEach((oneDay) => {
+        console.log(oneDay)
+        const date = new Date(oneDay.date);
+        const formattedDate = date.toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        if(formattedDate.toLowerCase().includes('friday')) {
+            fridayForecast = oneDay
+            // console.log(fridayForecast)
+            fridayDate.innerHTML = `${formattedDate}`
+            fridayHigh.innerHTML = `High: ${Math.round(oneDay.day.maxtemp_f)}`
+            fridayLow.innerHTML = `Low: ${Math.round(oneDay.day.mintemp_f)}`
+
+            fridayIcon.style.backgroundImage = `url('https:${oneDay.day.condition.icon}')`;
+            fridayIcon.style.backgroundSize = 'contain';
+            // console.log(oneDay.day.condition.icon);
+
+        } else if (formattedDate.toLowerCase().includes('saturday')) {
+            saturdayForecast = oneDay
+            // console.log(saturdayForecast)
+            saturdayDate.innerHTML = `${formattedDate}`
+            saturdayHigh.innerHTML = `High: ${Math.round(oneDay.day.maxtemp_f)}`
+            saturdayLow.innerHTML = `Low: ${Math.round(oneDay.day.mintemp_f)}`
+
+            saturdayIcon.style.backgroundImage = `url('https:${oneDay.day.condition.icon}')`;
+            saturdayIcon.style.backgroundSize = 'contain';
+        } else if (formattedDate.toLowerCase().includes('sunday')) {
+            sundayForecast = oneDay
+            // console.log(sundayForecast)
+            sundayDate.innerHTML = `${formattedDate}`
+            sundayHigh.innerHTML = `High: ${Math.round(oneDay.day.maxtemp_f)}`
+            sundayLow.innerHTML = `Low: ${Math.round(oneDay.day.mintemp_f)}`
+
+            sundayIcon.style.backgroundImage = `url('https:${oneDay.day.condition.icon}')`;
+            sundayIcon.style.backgroundSize = 'contain';
+        }
+    // unites states of america
+    return { fridayForecast, saturdayForecast, sundayForecast };
+
+    })
+    toggleList()
+};
 
 
 const getItems = async () => {

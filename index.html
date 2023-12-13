@@ -22,7 +22,7 @@
                     <label for="state">State</label>
                     <input name="state" id="state"  class="search" placeholder="Full State Name"  onchange="handleDestinationInputChange(event)"/>
                     <label for="city">City</label>
-                    <input name="city" id="city" class="search" placeholder="Full City Name" onchange="handleDestinationInputChange(event)"/>
+                    <input name="city" id="city" class="search" placeholder="Full City Name"  onchange="handleDestinationInputChange(event)"/>
                     <input type="submit" value="Submit">
                 </form>
             </section>
@@ -36,11 +36,10 @@
                 <p id="location-txt">Sacramento, CA</p>
                 <div id="all-forecast-cards">
                     <div>
-                        <p class="text-center forecast-date">FRI, DEC 1</p>
-                        <div class="forecast-card">
+                        <p id='friday-date' class="text-center forecast-date">FRI, DEC 1</p>
+                        <div id='friday-card' class="forecast-card ">
                             <div class="icons">
-                                <div class="sun-icon"></div>
-                                <div class="moon-icon"></div>
+                                <div id="friday-icon"></div>
                             </div>
                             <div class="temps">
                                     <p>High 61</p>
@@ -49,11 +48,10 @@
                         </div>
                     </div>
                     <div>
-                        <p class="text-center forecast-date">SAT, DEC 2</p>
-                        <div class="forecast-card middle-card">
+                        <p id='saturday-date' class="text-center forecast-date">SAT, DEC 2</p>
+                        <div id='saturday-card' class="forecast-card middle-card">
                             <div class="icons">
-                                <div class="sun-icon"></div>
-                                <div class="moon-icon"></div>
+                                <div id="saturday-icon"></div>
                             </div>
                             <div class="temps">
                                     <p>High 61</p>
@@ -62,11 +60,10 @@
                         </div>
                     </div>
                     <div>
-                        <p class="text-center forecast-date">SUN, DEC 3</p>
-                        <div class="forecast-card">
+                        <p id='sunday-date' class="text-center forecast-date">SUN, DEC 3</p>
+                        <div id='sunday-card' class="forecast-card">
                             <div class="icons">
-                                <div class="sun-icon"></div>
-                                <div class="moon-icon"></div>
+                                <div id="sunday-icon"></div>
                             </div>
                             <div class="temps">
                                     <p>High 61</p>
@@ -84,7 +81,7 @@
 
     </div>
 
-    <h2 class="desktop-txt-margin-left hidden">Packing List</h2>
+    <h2 id='list-header' class="desktop-txt-margin-left hidden">Packing List</h2>
     <section id="list-section" class="section-container hidden">  
         <!-- <div id="list-headers" class="row suggested-active-header">
             <p class="">Suggested</p>
@@ -98,34 +95,9 @@
             <div class="header">
                 <div class="column">Name</div>
                 <div class="column">#</div>
-                <div class="column">Packing List</div>
+                <div class="column">Suggestion List</div>
             </div>
             <!-- DATA ROWS -->
-            <div class="row">
-                <div class="column">Socks</div>
-                <div class="column">20</div>
-                <div class="column">Add</div>
-            </div>
-            <div class="row">
-                <div class="column">Socks</div>
-                <div class="column">20</div>
-                <div class="column">Add</div>
-            </div>
-            <div class="row">
-                <div class="column">Socks</div>
-                <div class="column">20</div>
-                <div class="column">Add</div>
-            </div>
-            <div class="row">
-                <div class="column">Socks</div>
-                <div class="column">20</div>
-                <div class="column">Add</div>
-            </div>
-            <div class="row">
-                <div class="column">Socks</div>
-                <div class="column">20</div>
-                <div class="column">Add</div>
-            </div>
             <div class="row">
                 <div class="column">Socks</div>
                 <div class="column">20</div>
