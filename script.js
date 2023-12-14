@@ -1,16 +1,22 @@
 //Variables
 const locationTxt = document.getElementById('location-txt');
-const listHeadingTxt = document.getElementById('list-header');
+const suggestionButton = document.getElementById('suggestion-button');
+const packingListButton = document.getElementById('packing-list-button');
+const listHeadingTxt = document.getElementById('list-header-title');
 const listSection = document.getElementById('list-section');
-const table = document.getElementById('table-container');
+const suggestionTable = document.getElementById('suggestion-table-container');
+const packingListTable = document.getElementById('packingList-table-container');
+const allListElements = document.getElementById('all-list-elements');
+const allForecastElements = document.getElementById('all-forecast-elements');
+//* selects all elements in heading
+const allMainHeadingElements = document.querySelectorAll('#heading *');
+
 let forecasts = '';
 let destination = {
     country: '',
     state: '',
     city: ''
 };
-
-
 
 //Friday Info
 const fridayDate = document.getElementById('friday-date');
@@ -30,25 +36,6 @@ const sundayHigh = document.querySelector('#sunday-card p');
 const sundayLow = document.querySelector('#sunday-card p:nth-child(2)');
 const sundayIcon = document.getElementById('sunday-icon');
 
-
-//Toggle List
-// const toggleList = () => {
-//     //for class list property use contains,
-//     if(listSection.classList.contains('hidden')) {
-//         listSection.classList.remove('hidden')
-//         listHeadingTxt.classList.remove('hidden')
-        
-//     } else {
-//         listSection.classList.add('hidden')
-//         listHeadingTxt.classList.add('hidden')
-//     }
-// };
-
-//toggle class hidden and block for visibility
-
-//to display items in the packing list it will be getItems()
-//suggested list will be conditionally rendered based on forecast.
-//If name to lowercase includes america, string will be united states of america, default to united states of America.
 
 const handleDestinationInputChange = (e) => {
     //spread operator, copy objects contents  and dynamically set properties
@@ -137,15 +124,15 @@ const generateSuggestions = (forecasts) => {
     const cloudySuggestions = [
         {
             name: 'jacket',
-            type: 'clothing'
+            category: 'clothing'
         },
         {
             name: 'light sunblock',
-            type: 'misc.'
+            category: 'misc.'
         },
         {
             name: 'hoodie',
-            type: 'clothing'
+            category: 'clothing'
         }
 
     ]
@@ -153,23 +140,23 @@ const generateSuggestions = (forecasts) => {
     const rainSuggestions = [
         {
             name: 'jacket with a hood',
-            type: 'clothing'
+            category: 'clothing'
         },
         {
             name: 'umbrella',
-            type: 'misc.'
+            category: 'misc.'
         },
         {
             name: 'hat',
-            type: 'clothings'
+            category: 'clothing'
         },
         {
             name: 'rainboots',
-            type: 'clothings'
+            category: 'clothing'
         },
         {
             name: 'gloves',
-            type: 'clothings'
+            category: 'clothing'
         },
 
     ];
@@ -177,15 +164,15 @@ const generateSuggestions = (forecasts) => {
     const sunnySuggestions = [
         {
             name: 'hat',
-            type: 'clothing'
+            category: 'clothing'
         },
         {
             name: 'sunblock',
-            type: 'misc.'
+            category: 'misc.'
         },
         {
             name: 'short sleeve',
-            type: 'clothing'
+            category: 'clothing'
         }
 
     ];
@@ -215,15 +202,22 @@ const generateSuggestions = (forecasts) => {
                 //type
                 let typeColumn = document.createElement('div');
                 typeColumn.classList.add('column');
-                typeColumn.innerHTML = `${item.type}`;
+                typeColumn.innerHTML = `${item.category}`;
                 //appending
                 row.appendChild(nameColumn);
                 row.appendChild(typeColumn);
-                table.append(row);
+                suggestionTable.append(row);
             });
-
-
     });
+
+    //anything you want to appear when data renders make it appear here, remove hidden.
+    allListElements.classList.remove('hidden');
+    allForecastElements.classList.remove('hidden');
+    allMainHeadingElements.forEach((element) => {
+        element.classList.remove('text-center')
+        element.classList.add('desktop-txt-margin-left')
+    });
+    document.querySelector('#heading > :nth-child(3)').classList.add('hidden');
 }
 
 
@@ -237,6 +231,83 @@ const getItems = async () => {
     }
 };
 
-//call functions
-getItems();
+
+
+//VISIBILITY FUNCTIONS 
+
+//show packing list 
+const showPackingList = async (event) => {
+    event.preventDefault();
+    //have to clear items from table otherwise it will duplicate!
+    packingListTable.innerHTML = '';
+    //Datatable header creation for packing list
+    let header = document.createElement('div');
+    header.classList.add('header')
+
+    let nameColumn = document.createElement('div');
+    const nameTxt = document.createTextNode('Name')
+    nameColumn.appendChild(nameTxt);
+    nameColumn.classList.add('column');
+
+    let categoryColumn = document.createElement('div');
+    categoryColumn.classList.add('column');
+    const columnTxt = document.createTextNode('Category')
+    categoryColumn.appendChild(columnTxt);
+
+    //append everything to header
+    header.appendChild(nameColumn);
+    header.appendChild(categoryColumn);
+    packingListTable.appendChild(header);
+
+    try {
+        const allItems = await getItems(); // Get items
+        console.log(allItems);
+
+        allItems.forEach((item) => {
+            const row = document.createElement('div');
+            row.classList.add('row');
+
+            //name
+            let nameColumn = document.createElement('div');
+            nameColumn.classList.add('column');
+            nameColumn.innerHTML = item.name;
+
+            //type
+            let typeColumn = document.createElement('div');
+            typeColumn.classList.add('column');
+            typeColumn.innerHTML = item.category;
+
+            //appending
+            row.appendChild(nameColumn);
+            row.appendChild(typeColumn);
+            packingListTable.appendChild(row);
+        });
+    } catch (err) {
+        console.log(err)
+    }
+    toggleLists();
+};
+
+//show list container when forecasts is present, data is successfully pulled
+
+
+//hide suggestions
+const toggleLists = () => {
+    if(!suggestionTable.classList.contains('hidden')) {
+        listHeadingTxt.innerHTML = 'Packing List';
+        suggestionTable.classList.add('hidden');
+        packingListTable.classList.remove('hidden');
+
+        //hide packing list button, show suggestion button
+        packingListButton.classList.add('hidden')
+        suggestionButton.classList.remove('hidden');
+    } else {
+        listHeadingTxt.innerHTML = 'Suggestion List';
+        suggestionTable.classList.remove('hidden');
+        packingListTable.classList.add('hidden');
+        //hide suggestion button, show packinglist button
+        suggestionButton.classList.add('hidden');
+        packingListButton.classList.remove('hidden');
+    }
+};
 

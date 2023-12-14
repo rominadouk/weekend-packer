@@ -9,25 +9,27 @@
 </head>
 <body>
     <div id="heading">
-        <h1 class="desktop-txt-margin-left">Weekend Packer</h1>
-        <p class="desktop-txt-margin-left">Plan ahead for your Weekend Getaway!</p>
+        <h1 class="text-center">Weekend Packer</h1>
+        <p class="text-center">Plan ahead for your Weekend Getaway!</p>
+        <p class="text-center">Enter your destination to begin.</p>
     </div>
     <div id="destination-forecast-container">
         <div>
             <h2>Destination</h2>
             <section id="destination-select-container" class="section-container">
                 <form id="destination-form" onsubmit="{handleDestinationSubmit(event)}">
-                    <label for="country">Country</label>
-                    <input name="country" id="country" class="search" placeholder="Full Country Name" onchange="handleDestinationInputChange(event)"/>
-                    <label for="state">State</label>
-                    <input name="state" id="state"  class="search" placeholder="Full State Name"  onchange="handleDestinationInputChange(event)"/>
+                    <p>*Country is defaulted to United States.<br/>
+                        *Enter full state and city name.<br/> ex: Oakland, California</p>
                     <label for="city">City</label>
                     <input name="city" id="city" class="search" placeholder="Full City Name"  onchange="handleDestinationInputChange(event)"/>
+                    <label for="state">State</label>
+                    <input name="state" id="state"  class="search" placeholder="Full State Name"  onchange="handleDestinationInputChange(event)"/>
+
                     <input type="submit" value="Submit">
                 </form>
             </section>
         </div>
-        <div>
+        <div id="all-forecast-elements" class="hidden">
             <h2>Weekend Forecast</h2>
             <section id="forecast-container" class="section-container">
                 <!-- with javascript, get local time, change it to upcoming and add as an h-3 or p tag here. -->
@@ -36,59 +38,71 @@
                 <p id="location-txt">City, State</p>
                 <div id="all-forecast-cards">
                     <div>
-                        <p id='friday-date' class="text-center forecast-date">FRI, DEC 1</p>
+                        <p id='friday-date' class="text-center forecast-date"></p>
                         <div id='friday-card' class="forecast-card ">
                             <div class="icons">
                                 <div id="friday-icon"></div>
                             </div>
                             <div class="temps">
-                                    <p>High 61</p>
-                                    <p>Low 48</p>
+                                    <p>High</p>
+                                    <p>Low</p>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <p id='saturday-date' class="text-center forecast-date">SAT, DEC 2</p>
+                        <p id='saturday-date' class="text-center forecast-date"></p>
                         <div id='saturday-card' class="forecast-card middle-card">
                             <div class="icons">
                                 <div id="saturday-icon"></div>
                             </div>
                             <div class="temps">
-                                    <p>High 61</p>
-                                    <p>Low 48</p>
+                                    <p>High</p>
+                                    <p>Low</p>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <p id='sunday-date' class="text-center forecast-date">SUN, DEC 3</p>
+                        <p id='sunday-date' class="text-center forecast-date"></p>
                         <div id='sunday-card' class="forecast-card">
                             <div class="icons">
                                 <div id="sunday-icon"></div>
                             </div>
                             <div class="temps">
-                                    <p>High 61</p>
-                                    <p>Low 48</p>
+                                    <p>High</p>
+                                    <p>Low</p>
                             </div>
                         </div>
                     </div>
 
                 </div>
-                    
             </section>
         </div>
     </div>
-
-    <h2 id='list-header' class="desktop-txt-margin-left">Suggestion List</h2>
-    <section id="list-section" class="section-container">  
-        <div id="table-container">
-            <div class="header">
-                <div class="column">Name</div>
-                <div class="column">Type</div>
-                <!-- <div class="column">Suggestion List</div> -->
-            </div>
-            <!-- DATA ROWS DYNAMICALLY GENERATE HERE-->
+    <div id="all-list-elements" class="hidden">
+        <div id="list-header-container">
+            <h2 id='list-header-title' class="desktop-txt-margin-left">Suggestion List</h2>
+            <button id='packing-list-button' onclick="showPackingList(event)">Show Packing List</button>
+            <button id="suggestion-button" class="hidden" onclick="toggleLists()">Show Suggestions</button>
         </div>
-    </section>
+        <section id="list-section" class="section-container" >  
+            <div id="suggestion-table-container" class="table-container">
+                <div class="header">
+                    <div class="column">Name</div>
+                    <div class="column">Category</div>
+                </div>
+                <!-- DATA ROWS DYNAMICALLY GENERATE HERE-->
+            </div>
+            <div id="packingList-table-container" class="table-container hidden">
+                <div class="header">
+                    <div class="column">Name</div>
+                    <div class="column">Category</div>
+                </div>
+                <!-- DATA ROWS DYNAMICALLY GENERATE HERE-->
+            </div>
+        </section>
+
+    </div>
+
 
 </body>
 </html>

@@ -1,18 +1,22 @@
-* {
+/* * {
     border: 1px solid gold;
-}
+} */
 
 body {
     margin: 0;
 }
 
-#heading {
-    text-align: center;
-}
+
 
 h2 {
     margin-left: 16px;
 }
+
+label {
+    font-size: 20px;
+}
+
+
 .text-center {
     text-align: center;
 }
@@ -44,9 +48,7 @@ h2 {
 .search {
     padding: 7px 10px;
 }
-label {
-    font-size: 20px;
-}
+
 
 /* FORECAST STYLING */
 .forecast-card {
@@ -81,11 +83,20 @@ label {
 }
 
 /* PACKING LIST STYLING */
+#list-header-container {
+    display: flex;
+}
+
+
+
+button {
+    margin: 20px;
+}
 #list-section {
     margin-bottom: 20px;
 }
 
-#table-container {
+.table-container {
     display: table;
     width: 80%;
     margin: 0 auto;
@@ -120,7 +131,6 @@ label {
     }
     #destination-form {
         gap: 10px; 
-        padding-bottom: 37px;
     }
     
     #destination-forecast-container {
