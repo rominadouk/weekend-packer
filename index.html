@@ -21,9 +21,9 @@
                     <p>*Country is defaulted to United States.<br/>
                         *Enter full state and city name.<br/> ex: Oakland, California</p>
                     <label for="city">City</label>
-                    <input name="city" id="city" class="search" placeholder="Full City Name"  onchange="handleDestinationInputChange(event)"/>
+                    <input name="city" id="city"  class="search"  placeholder="Full City Name"  onchange="handleDestinationInputChange(event)"/>
                     <label for="state">State</label>
-                    <input name="state" id="state"  class="search" placeholder="Full State Name"  onchange="handleDestinationInputChange(event)"/>
+                    <input name="state" id="state" class="search" placeholder="Full State Name"  onchange="handleDestinationInputChange(event)"/>
 
                     <input type="submit" value="Submit">
                 </form>
@@ -32,7 +32,6 @@
         <div id="all-forecast-elements" class="hidden">
             <h2>Weekend Forecast</h2>
             <section id="forecast-container" class="section-container">
-                <!-- with javascript, get local time, change it to upcoming and add as an h-3 or p tag here. -->
                 <!-- Create three cards with javascript here showcasing the data 
                 --> 
                 <p id="location-txt">City, State</p>
@@ -84,6 +83,17 @@
             <button id='packing-list-button' onclick="showPackingList(event)">Show Packing List</button>
             <button id="suggestion-button" class="hidden" onclick="toggleLists()">Show Suggestions</button>
         </div>
+        <!-- ADD MODAL -->
+        <section id="add-item-section" class="section-container hidden">
+            <h3 id="add-label">Add Item</h3>
+            <form id="add-item-form" onsubmit="handleAddSubmit(event)">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="item name" onchange="handleAddInputChange(event)"/>
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category" placeholder="item category" onchange="handleAddInputChange(event)"/>
+                <input type="submit" />
+            </form>
+        </section>
         <section id="list-section" class="section-container" >  
             <div id="suggestion-table-container" class="table-container">
                 <div class="header">
@@ -92,7 +102,7 @@
                 </div>
                 <!-- DATA ROWS DYNAMICALLY GENERATE HERE-->
             </div>
-            <div id="packingList-table-container" class="table-container hidden">
+            <div id="packing-list-table-container" class="table-container hidden">
                 <div class="header">
                     <div class="column">Name</div>
                     <div class="column">Category</div>

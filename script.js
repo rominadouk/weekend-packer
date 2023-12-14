@@ -5,7 +5,8 @@ const packingListButton = document.getElementById('packing-list-button');
 const listHeadingTxt = document.getElementById('list-header-title');
 const listSection = document.getElementById('list-section');
 const suggestionTable = document.getElementById('suggestion-table-container');
-const packingListTable = document.getElementById('packingList-table-container');
+const packinglistTable = document.getElementById('packing-list-table-container');
+const addSection = document.getElementById('add-item-section');
 const allListElements = document.getElementById('all-list-elements');
 const allForecastElements = document.getElementById('all-forecast-elements');
 //* selects all elements in heading
@@ -16,6 +17,10 @@ let destination = {
     country: '',
     state: '',
     city: ''
+};
+let newItem = {
+    name: '',
+    category: ''
 };
 
 //Friday Info
@@ -36,7 +41,7 @@ const sundayHigh = document.querySelector('#sunday-card p');
 const sundayLow = document.querySelector('#sunday-card p:nth-child(2)');
 const sundayIcon = document.getElementById('sunday-icon');
 
-
+ //function typing directly into object as input changes; utilize spread operator
 const handleDestinationInputChange = (e) => {
     //spread operator, copy objects contents  and dynamically set properties
     destination = {
@@ -45,23 +50,75 @@ const handleDestinationInputChange = (e) => {
     }
 };
 
+
  const handleDestinationSubmit = async (e) => {
     e.preventDefault();
     //use asynchronous function to ping the backend, send as json data and wait for a response.
-    //https://weekend-packer-backend-b1bfbc58a5f2.herokuapp.com/forecast
     try {
         const response = await fetch('https://weekend-packer-backend-b1bfbc58a5f2.herokuapp.com/forecast', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body:JSON. stringify(destination)
+            body:JSON.stringify(destination)
         })
         forecasts = await response.json();
         // console.log(forecasts)
         locationTxt.innerHTML = `${forecasts.location.name}, ${forecasts.location.region} `
         filterForecasts(forecasts)
     } catch (err) {
+        console.log(err)
+    }
+ };
+
+ //function typing directly into object as input changes
+ const handleAddInputChange = (e) => {
+    //spread operator, copy objects contents  and dynamically set properties
+    newItem = {
+        ...newItem,
+        [e.target.name]: e.target.value
+    }
+};
+
+//when submit is clicked in add itemo bject to database
+ const handleAddSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const response = await fetch('https://weekend-packer-backend-b1bfbc58a5f2.herokuapp.com/items', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(newItem)
+        })
+        document.getElementById('name').value = '';
+        document.getElementById('category').value = '';
+        //re-render packing list without refresh
+        showPackingList();
+
+    } catch(err) {
+        console.log(err)
+    }
+ };
+
+ //handle delete item
+
+ const handleDeleteItem = async (event, itemId) => {
+    if(event) {
+        event.preventDefault()
+    }
+
+    try {
+        const response = await fetch(`https://weekend-packer-backend-b1bfbc58a5f2.herokuapp.com/items/${itemId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        //re-render packing list without refresh
+        showPackingList();
+
+    } catch(err) {
         console.log(err)
     }
  };
@@ -114,13 +171,15 @@ const filterForecasts = (forecasts) => {
     return { fridayForecast, saturdayForecast, sundayForecast };
 
     });
-    generateSuggestions({fridayForecast, saturdayForecast, sundayForecast})
+    generateSuggestions( {fridayForecast, saturdayForecast, sundayForecast} )
     //work with the returned forecast data here to conditionally render suggestions based on fridayForecast.condition.text
 
 };
 
 
 const generateSuggestions = (forecasts) => {
+        //have to clear items from table otherwise it will duplicate!
+        suggestionTable.innerHTML = '';
     const cloudySuggestions = [
         {
             name: 'jacket',
@@ -177,37 +236,41 @@ const generateSuggestions = (forecasts) => {
 
     ];
 
-    // console.log(forecasts)
+    console.log(forecasts)
     //each forecast is a value of a larger object
     Object.values(forecasts).forEach((forecast) => {
-        let suggestions = [];
+        let suggestions = []
 
-            //check the conditions of the condition.txt, set suggestions based on condition
-            if(forecast.day.condition.text.toLowerCase().includes('cloudy')) {
-                suggestions = cloudySuggestions;
-            } else if(forecast.day.condition.text.toLowerCase().includes('rainy')) {
-                suggestions = rainSuggestions;
-            } else if(forecast.day.condition.text.toLowerCase().includes('sunny')) {
-                suggestions = sunnySuggestions;
-            }
-            //for each element in the suggestions that were in coditions, manpulate the dom
-            suggestions.forEach((item) => {
-                const row = document.createElement('div');
-                row.classList.add('row');
-                //name
-                let nameColumn = document.createElement('div');
-                nameColumn.classList.add('column');
-                nameColumn.innerHTML = `${item.name}`;
+        //check the conditions of the condition.txt, set suggestions based on condition
+        if(forecast.day.condition.text.toLowerCase().includes('cloudy')) {
+            suggestions = cloudySuggestions;
+            console.log(suggestions)
+        } else if(forecast.day.condition.text.toLowerCase().includes('rain')) {
+            suggestions = rainSuggestions;
+            console.log(suggestions)
+        } else if(forecast.day.condition.text.toLowerCase().includes('sunny')) {
+            suggestions = sunnySuggestions;
+            console.log(suggestions)
+        }
+        //for each element in the suggestions that were in coditions, manpulate the dom
+        suggestions.forEach((suggestion) => {
 
-                //type
-                let typeColumn = document.createElement('div');
-                typeColumn.classList.add('column');
-                typeColumn.innerHTML = `${item.category}`;
-                //appending
-                row.appendChild(nameColumn);
-                row.appendChild(typeColumn);
-                suggestionTable.append(row);
-            });
+            const row = document.createElement('div');
+            row.classList.add('row');
+            //name
+            let nameColumn = document.createElement('div');
+            nameColumn.classList.add('column');
+            nameColumn.innerHTML = `${suggestion.name}`;
+
+            //type
+            let typeColumn = document.createElement('div');
+            typeColumn.classList.add('column');
+            typeColumn.innerHTML = `${suggestion.category}`;
+            //appending
+            row.appendChild(nameColumn);
+            row.appendChild(typeColumn);
+            suggestionTable.append(row);
+        });
     });
 
     //anything you want to appear when data renders make it appear here, remove hidden.
@@ -235,11 +298,14 @@ const getItems = async () => {
 
 //VISIBILITY FUNCTIONS 
 
-//show packing list 
+//SHOW PACKING LIST
 const showPackingList = async (event) => {
-    event.preventDefault();
+    if(event) {
+        event.preventDefault();
+    }
+
     //have to clear items from table otherwise it will duplicate!
-    packingListTable.innerHTML = '';
+    packinglistTable.innerHTML = '';
     //Datatable header creation for packing list
     let header = document.createElement('div');
     header.classList.add('header')
@@ -254,10 +320,16 @@ const showPackingList = async (event) => {
     const columnTxt = document.createTextNode('Category')
     categoryColumn.appendChild(columnTxt);
 
+    let deleteColumn = document.createElement('div');
+    deleteColumn.classList.add('column');
+    const deleteTxt = document.createTextNode('Action')
+    deleteColumn.appendChild(deleteTxt);
+
     //append everything to header
     header.appendChild(nameColumn);
     header.appendChild(categoryColumn);
-    packingListTable.appendChild(header);
+    header.appendChild(deleteColumn);
+    packinglistTable.appendChild(header);
 
     try {
         const allItems = await getItems(); // Get items
@@ -277,15 +349,30 @@ const showPackingList = async (event) => {
             typeColumn.classList.add('column');
             typeColumn.innerHTML = item.category;
 
+            //action column for delete
+            let deleteColumn = document.createElement('div');
+            deleteColumn.classList.add('column');
+            //append a delete button to the delete column div
+            let deleteButton = document.createElement('button');
+            deleteButton.innerHTML = 'Delete Item';
+            //callback function, when delete is clicked call handle delete item.
+            deleteButton.addEventListener('click', (event) => handleDeleteItem(event, item._id));
+            deleteColumn.appendChild(deleteButton);
+
             //appending
             row.appendChild(nameColumn);
             row.appendChild(typeColumn);
-            packingListTable.appendChild(row);
+            row.append(deleteColumn)
+            packinglistTable.appendChild(row);
         });
     } catch (err) {
         console.log(err)
     }
-    toggleLists();
+    //only run this is there is a button event, to avoid refreshing entire page
+    if(event) {
+        toggleLists();
+    }
+
 };
 
 //show list container when forecasts is present, data is successfully pulled
@@ -296,7 +383,8 @@ const toggleLists = () => {
     if(!suggestionTable.classList.contains('hidden')) {
         listHeadingTxt.innerHTML = 'Packing List';
         suggestionTable.classList.add('hidden');
-        packingListTable.classList.remove('hidden');
+        packinglistTable.classList.remove('hidden');
+        addSection.classList.remove('hidden')
 
         //hide packing list button, show suggestion button
         packingListButton.classList.add('hidden')
@@ -304,8 +392,10 @@ const toggleLists = () => {
     } else {
         listHeadingTxt.innerHTML = 'Suggestion List';
         suggestionTable.classList.remove('hidden');
-        packingListTable.classList.add('hidden');
-        //hide suggestion button, show packinglist button
+        packinglistTable.classList.add('hidden');
+        addSection.classList.add('hidden');
+        
+        //hide suggestion button, show packing-list button
         suggestionButton.classList.add('hidden');
         packingListButton.classList.remove('hidden');
     }

@@ -89,9 +89,10 @@ label {
 
 
 
-button {
+#packing-list-button, #suggestion-button {
     margin: 20px;
 }
+
 #list-section {
     margin-bottom: 20px;
 }
@@ -106,12 +107,35 @@ button {
 .header, .row {
     display: table-row;
 }
+
+.header {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#location-txt, #add-label{
+    font-size: 25px;
+    
+}
+
 .column {
     display: table-cell;
     padding: 8px;
     border-bottom: 1px solid #ddd;
     text-align: left;
 }
+#add-item-section {
+    margin-bottom: 20px;
+}
+#add-item-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+}
+
+/* Extra general styling */
+
 
 .hidden {
     display: none;
@@ -132,6 +156,8 @@ button {
     #destination-form {
         gap: 10px; 
     }
+
+
     
     #destination-forecast-container {
         display: flex;
@@ -152,6 +178,7 @@ button {
         margin: 0;
         font-size: 25px;
     }
+
     label {
         font-size: 18.5px;
     }
@@ -183,8 +210,19 @@ button {
         width:63%;
         margin-bottom: 20px;
     }
+    #add-item-section {
+        width: 40%;
+
+        padding-top: 0px;
+    }
+    #add-item-form {
+        flex-direction: row;
+    
+    }
+
     .desktop-txt-margin-left {
         margin-left: 230px;
     }
+
 
 }
